@@ -27,8 +27,8 @@ agent_manager = "#{node['ossec']['user']['dir']}/bin/ossec-batch-manager.pl"
 ssh_hosts = Array.new
 
 search_string = "ossec:[* TO *]" 
-search_string << " AND chef_environment:#{node['ossec']['server_env']}" if node['ossec']['server_env']
-search_string << " NOT role:#{node['ossec']['server_role']}"
+search_string << " AND chef_environment:#{node['ossec']['server_env']} " if node['ossec']['server_env']
+search_string << " AND NOT role:#{node['ossec']['server_role']}"
 
 search(:node, search_string) do |n|
 
