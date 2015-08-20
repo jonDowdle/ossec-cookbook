@@ -32,7 +32,7 @@ end
 
 execute "tar zxvf #{ossec_dir}.tar.gz --strip-components=1" do
   cwd "#{Chef::Config[:file_cache_path]}/#{ossec_dir}"
-  creates "#{Chef::Config[:file_cache_path]}/#{ossec_dir}"
+  creates "#{Chef::Config[:file_cache_path]}/#{ossec_dir}/install.sh"
 end
 
 template "#{Chef::Config[:file_cache_path]}/#{ossec_dir}/etc/preloaded-vars.conf" do
