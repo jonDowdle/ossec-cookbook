@@ -26,7 +26,11 @@ remote_file "#{Chef::Config[:file_cache_path]}/#{ossec_dir}.tar.gz" do
   checksum node['ossec']['checksum']
 end
 
-execute "tar zxvf #{ossec_dir}.tar.gz" do
+directory "#{Chef::Config[:file_cache_path]}/#{ossec_dir}" do
+  action "create"
+end
+
+execute "tar zxvf #{ossec_dir}.tar.gz --strip-components=1 --directory #{ossec_dir}" do
   cwd Chef::Config[:file_cache_path]
   creates "#{Chef::Config[:file_cache_path]}/#{ossec_dir}"
 end
