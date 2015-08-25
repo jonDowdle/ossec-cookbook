@@ -22,15 +22,6 @@ node.set['ossec']['server']['maxagents']  = 1024
 
 include_recipe "ossec"
 
-template "/usr/local/bin/dist-ossec-keys.sh" do
-  source "dist-ossec-keys.sh.erb"
-  owner "root"
-  group "root"
-  mode 0755
-  variables(:ssh_hosts => ssh_hosts.sort)
-  not_if { ssh_hosts.empty? }
-end
-
 dbag_name = node["ossec"]["data_bag"]["name"]
 dbag_item = node["ossec"]["data_bag"]["ssh"]
 if node["ossec"]["data_bag"]["encrypted"]
@@ -60,3 +51,12 @@ cron "distribute-ossec-keys" do
 end
 
 include_recipe "ossec::add_agent"
+
+template "/usr/local/bin/dist-ossec-keys.sh" do
+  source "dist-ossec-keys.sh.erb"
+  owner "root"
+  group "root"
+  mode 0755
+  variables(:ssh_hosts => node.run_state[:ssh_hosts].sort)
+  not_if { node.run_state[:ssh_hosts].empty? }
+end
