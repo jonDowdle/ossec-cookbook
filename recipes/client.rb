@@ -72,3 +72,7 @@ file "#{node['ossec']['user']['dir']}/etc/client.keys" do
 end
 
 include_recipe "ossec::add_agent"
+
+service "ossec" do
+  action :start
+end

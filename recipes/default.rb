@@ -78,5 +78,13 @@ end
 
 service "ossec" do
   supports :status => true, :restart => true
-  action [:enable, :start]
+  action [:enable]
+  subscribes :restart, "template[#{node['ossec']['user']['dir']}/etc/ossec.conf]", :delayed
+  subscribes :restart, "template[#{node['ossec']['user']['dir']}/etc/preloaded-vars.conf]", :delayed
+  subscribes :restart, "template[#{node['ossec']['user']['dir']}/etc/client.keys]", :delayed
+end
+
+service "ossec" do
+  action :start
+  only_if { ::File.exists?("#{node['ossec']['user']['dir']}/etc/client.keys") }
 end
