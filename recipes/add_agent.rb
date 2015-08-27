@@ -28,7 +28,8 @@ search_string << " AND NOT role:#{node['ossec']['server_role']}"
 search(:node, search_string) do |n|
   node.run_state[:ssh_hosts] << n['ipaddress'] if n['keys']
   
-  agent_id = ( n['fqdn'].nil? || n['fqdn'].empty? ) ? n['name'] : n['fqdn'][0..31]
+  agent_id = n['fqdn'][0..31] rescue ""
+  agent_id = n['ipaddress'].gsub('.','_') if agent_id.empty?
 
   execute "#{agent_manager} -a --ip #{n['ipaddress']} -n #{agent_id}" do
     not_if "grep '#{agent_id} #{n['ipaddress']}' #{node['ossec']['user']['dir']}/etc/client.keys"
