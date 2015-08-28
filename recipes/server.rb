@@ -60,7 +60,3 @@ template "/usr/local/bin/dist-ossec-keys.sh" do
   variables(:ssh_hosts => node.run_state[:ssh_hosts].sort)
   not_if { node.run_state[:ssh_hosts].empty? }
 end
-
-service "ossec" do
-  action :start
-end
