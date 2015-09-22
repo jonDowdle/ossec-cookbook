@@ -23,7 +23,7 @@ node.run_state[:ssh_hosts] = []
 
 search_string = "ossec:[* TO *]"
 search_string << " AND chef_environment:#{node['ossec']['server_env']}" if node['ossec']['server_env']
-search_string << " AND NOT role:#{node['ossec']['server_role']}"
+search_string << " NOT role:#{node['ossec']['server_role']}"
 
 search(:node, search_string) do |n|
   node.run_state[:ssh_hosts] << n['ipaddress'] if n['keys']

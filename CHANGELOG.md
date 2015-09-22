@@ -1,3 +1,10 @@
+
+## v1.0.13
+
+### Bug
+
+- Fix search string to use `NOT` vs `AND NOT`.
+
 ## v1.0.5
 
 ### Bug
