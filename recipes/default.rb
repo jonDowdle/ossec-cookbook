@@ -86,5 +86,5 @@ end
 
 service "ossec" do
   action :start
-  only_if { ::File.exists?("#{node['ossec']['user']['dir']}/etc/client.keys") }
+  only_if { ::File.size?("#{node['ossec']['user']['dir']}/etc/client.keys") }
 end
