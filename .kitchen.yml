@@ -4,6 +4,9 @@ driver_config:
   require_chef_omnibus: true
 
 platforms:
+- name: ubuntu-14.04
+  driver_config:
+    box: ubuntu/trusty64
 - name: ubuntu-12.04
   driver_config:
     box: opscode-ubuntu-12.04
@@ -28,6 +31,15 @@ suites:
 - name: default
   run_list: ["recipe[ossec]"]
   attributes: {}
+- name: agent
+  run_list:
+    - "recipe[apt]"
+    - "recipe[ossec::agent]"
+  provisioner:
+    name: chef_zero
+  attributes:
+    apt:
+      compile_time_update: true  
 - name: wui
   provisioner:
     name: chef_zero
