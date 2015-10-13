@@ -1,4 +1,17 @@
 
+## v1.0.15
+
+- When keys are distributed by server, restart the ossec agent service.
+- Remove call to add_agent in client mode.
+- Add Kitchen suit for agent only.
+- Update Berkshelf to use new supermarket URL.
+
+## v.1.0.14
+
+### Bug 
+
+- Don't attempt to start service if client.keys is empty
+
 ## v1.0.13
 
 ### Bug
