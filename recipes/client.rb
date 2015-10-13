@@ -70,5 +70,3 @@ file "#{node['ossec']['user']['dir']}/etc/client.keys" do
   group "ossec"
   mode 0660
 end
-
-include_recipe "ossec::add_agent"
