@@ -1,3 +1,7 @@
+## v1.0.16
+
+- Remove service start. Use notifications to start it.
+- Add agents before cron job is created.
 
 ## v1.0.15
 

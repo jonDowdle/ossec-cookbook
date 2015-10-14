@@ -1,0 +1,8 @@
+{
+  "name": "agent-01",
+  "chef_environment": "_default",
+  "run_list": [ "role[ossec_client]" ],
+  "automatic": {
+    "ipaddress": "10.0.0.100"
+   }
+}

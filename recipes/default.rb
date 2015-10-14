@@ -83,8 +83,3 @@ service "ossec" do
   subscribes :restart, "template[#{node['ossec']['user']['dir']}/etc/preloaded-vars.conf]", :delayed
   subscribes :restart, "template[#{node['ossec']['user']['dir']}/etc/client.keys]", :delayed
 end
-
-service "ossec" do
-  action :start
-  only_if { ::File.size?("#{node['ossec']['user']['dir']}/etc/client.keys") }
-end

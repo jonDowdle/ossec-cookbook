@@ -44,13 +44,13 @@ template "#{node['ossec']['user']['dir']}/.ssh/id_rsa" do
   variables(:key => ossec_key['privkey'])
 end
 
+include_recipe "ossec::add_agent"
+
 cron "distribute-ossec-keys" do
   minute "0"
   command "/usr/local/bin/dist-ossec-keys.sh"
   only_if { ::File.exists?("#{node['ossec']['user']['dir']}/etc/client.keys") }
 end
-
-include_recipe "ossec::add_agent"
 
 template "/usr/local/bin/dist-ossec-keys.sh" do
   source "dist-ossec-keys.sh.erb"

@@ -33,13 +33,24 @@ suites:
   attributes: {}
 - name: agent
   run_list:
+    - "role[ossec_client]"
     - "recipe[apt]"
     - "recipe[ossec::agent]"
   provisioner:
     name: chef_zero
   attributes:
     apt:
-      compile_time_update: true  
+      compile_time_update: true
+- name: server
+  run_list:
+    - "role[ossec_server]"
+    - "recipe[apt]"
+    - "recipe[ossec::server]"
+  provisioner:
+    name: chef_zero
+  attributes:
+    apt:
+      compile_time_update: true
 - name: wui
   provisioner:
     name: chef_zero
