@@ -1,3 +1,8 @@
+## v1.0.18
+
+- Bug fix: Add sudo permision to check timestamp on.
+- Do not run dist-ossec-keys.sh on chef run (in server mode). It caused chef run to be far to long.
+
 ## v1.0.17
 
 - Add ossecd to sudoer's group

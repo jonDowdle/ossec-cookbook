@@ -52,7 +52,10 @@ user "ossecd" do
 end
 sudo 'ossecd' do
   user "ossecd"
-  commands ['/etc/init.d/ossec restart']
+  commands [
+      '/etc/init.d/ossec restart', 
+      "/usr/bin/find #{node['ossec']['user']['dir']}/etc/client.keys -mmin +1"
+    ]
   nopasswd true
 end
 
