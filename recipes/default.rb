@@ -27,7 +27,7 @@ remote_file "#{Chef::Config[:file_cache_path]}/#{ossec_dir}.tar.gz" do
 end
 
 directory "#{Chef::Config[:file_cache_path]}/#{ossec_dir}" do
-  action "create"
+  action :create
 end
 
 execute "tar zxvf #{Chef::Config[:file_cache_path]}/#{ossec_dir}.tar.gz --strip-components=1" do
@@ -37,6 +37,7 @@ end
 template "#{Chef::Config[:file_cache_path]}/#{ossec_dir}/etc/preloaded-vars.conf" do
   source "preloaded-vars.conf.erb"
   variables :ossec => node['ossec']['user']
+  notifies :restart, "service[ossec]", :delayed
 end
 
 bash "install-ossec" do
@@ -78,8 +79,7 @@ end
 
 service "ossec" do
   supports :status => true, :restart => true
-  action [:enable]
-  subscribes :restart, "template[#{node['ossec']['user']['dir']}/etc/ossec.conf]", :delayed
-  subscribes :restart, "template[#{node['ossec']['user']['dir']}/etc/preloaded-vars.conf]", :delayed
-  subscribes :restart, "template[#{node['ossec']['user']['dir']}/etc/client.keys]", :delayed
+  action [:nothing]
+  only_if { ::File.size?("#{node['ossec']['user']['dir']}/etc/client.keys") }
 end
+

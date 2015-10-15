@@ -1,3 +1,10 @@
+## v1.0.17
+
+- Add ossecd to sudoer's group
+- Standardize when a node is not added to OSSEC
+- Fix SSH command used to restart OSSEC 
+- Run dist-ossec-keys.sh on chef run (in server mode)
+
 ## v1.0.16
 
 - Remove service start. Use notifications to start it.

@@ -50,6 +50,11 @@ user "ossecd" do
   gid "ossec"
   home node['ossec']['user']['dir']
 end
+sudo 'ossecd' do
+  user "ossecd"
+  commands ['/etc/init.d/ossec restart']
+  nopasswd true
+end
 
 directory "#{node['ossec']['user']['dir']}/.ssh" do
   owner "ossecd"

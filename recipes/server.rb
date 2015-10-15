@@ -49,7 +49,6 @@ include_recipe "ossec::add_agent"
 cron "distribute-ossec-keys" do
   minute "0"
   command "/usr/local/bin/dist-ossec-keys.sh"
-  only_if { ::File.exists?("#{node['ossec']['user']['dir']}/etc/client.keys") }
 end
 
 template "/usr/local/bin/dist-ossec-keys.sh" do
@@ -58,5 +57,11 @@ template "/usr/local/bin/dist-ossec-keys.sh" do
   group "root"
   mode 0755
   variables(:ssh_hosts => node.run_state[:ssh_hosts].sort)
+  notifies :run, 'execute[distribute_keys]', :delayed
   not_if { node.run_state[:ssh_hosts].empty? }
+end
+
+execute 'distribute_keys' do
+  command '/usr/local/bin/dist-ossec-keys.sh'
+  action :nothing
 end

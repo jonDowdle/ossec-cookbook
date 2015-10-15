@@ -26,16 +26,16 @@ search_string << " AND chef_environment:#{node['ossec']['server_env']}" if node[
 search_string << " NOT role:#{node['ossec']['server_role']}"
 
 search(:node, search_string) do |n|
-  node.run_state[:ssh_hosts] << n['ipaddress'] if n['keys']
+  add_to_ossec = !n['ipaddress'].nil?
+  Chef::Log.warn "#{n} NOT ADDED BECAUSE IPADDRESS IS NOT SET" if add_to_ossec
+  node.run_state[:ssh_hosts] << n['ipaddress'] if add_to_ossec
  
   agent_id = n['fqdn'][0..31] rescue ""
   agent_id = n['ipaddress'].gsub('.','_') if agent_id.empty? rescue n['name']
 
-  add_to_ossec = n['ipaddress'].nil?
   execute "#{agent_manager} -a --ip #{n['ipaddress']} -n #{agent_id}" do
+    only_if { add_to_ossec }
     not_if "grep '#{agent_id} #{n['ipaddress']}' #{node['ossec']['user']['dir']}/etc/client.keys"
-    not_if { add_to_ossec }
-  end
-  Chef::Log.warn "#{n} NOT ADDED BECAUSE IPADDRESS IS NOT SET" if add_to_ossec
-
+    notifies :restart, "service[ossec]", :delayed
+  end  
 end
